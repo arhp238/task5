@@ -1,0 +1,58 @@
+#include <iostream>
+#include <vector>
+
+class Student {
+private:
+    std::string name;
+    int id;
+
+public:
+    Student(const std::string& name, int id) : name(name), id(id) {}
+
+    friend std::ostream& operator<<(std::ostream& os, const Student& student) {
+        return os << "Студент: " << student.name << ", ID: " << student.id;
+    }
+};
+
+class University {
+private:
+    std::vector<Student*> students;
+
+public:
+    ~University() {
+        for (auto* student : students) {
+            delete student;
+        }
+        students.clear();
+    }
+
+    void addStudent(Student* student) {
+        students.push_back(student);
+    }
+
+    void listStudents() const {
+        if (students.empty()) {
+            std::cout << "nikto ne zachislen" << std::endl;
+        }
+        else {
+            std::cout << "spisok studentov:" << std::endl;
+            for (const auto* student : students) {
+                std::cout << *student << std::endl;
+            }
+        }
+    }
+};
+
+int main() {
+    University university;
+
+    Student* student1 = new Student("anatoliy zavodskiy", 12345);
+    Student* student2 = new Student("pavel artyomov", 67890);
+
+    university.addStudent(student1);
+    university.addStudent(student2);
+
+    university.listStudents();
+
+    return 0;
+}
