@@ -1,0 +1,61 @@
+#include <iostream>
+#include <string>
+
+class Person {
+protected:
+    std::string name;
+    int age;
+
+public:
+    Person(const std::string& name, int age) : name(name), age(age) {}
+
+    virtual void printInfo() const {
+        std::cout << "name: " << name << ", age: " << age << std::endl;
+    }
+};
+
+class Student : virtual public Person {
+private:
+    std::string university;
+
+public:
+    Student(const std::string& name, int age, const std::string& university)
+        : Person(name, age), university(university) {}
+
+    void printInfo() const override {
+        Person::printInfo();
+        std::cout << "university: " << university << std::endl;
+    }
+};
+
+class Worker : virtual public Person {
+private:
+    std::string company;
+
+public:
+    Worker(const std::string& name, int age, const std::string& company)
+        : Person(name, age), company(company) {}
+
+    void printInfo() const override {
+        Person::printInfo();
+        std::cout << "company: " << company << std::endl;
+    }
+};
+
+class Intern : public Student, public Worker {
+public:
+    Intern(const std::string& name, int age, const std::string& university, const std::string& company)
+        : Person(name, age), Student(name, age, university), Worker(name, age, company) {}
+
+    void printInfo() const override {
+        Student::printInfo();
+        Worker::printInfo();
+    }
+};
+
+int main() {
+    Intern intern("alexandr blinov", 22, "KFU", "Sber");
+    intern.printInfo();
+
+    return 0;
+}
