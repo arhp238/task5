@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+
+class Employee {
+protected:
+    std::string name;
+    double salary;
+
+public:
+    Employee(const std::string& name, double salary) : name(name), salary(salary) {}
+
+    virtual void printInfo() const {
+        std::cout << "name: " << name << ", zarplata: " << salary << std::endl;
+    }
+};
+
+class Manager : public Employee {
+private:
+    double bonus;
+
+public:
+    Manager(const std::string& name, double salary, double bonus) : Employee(name, salary), bonus(bonus) {}
+
+    void printInfo() const override {
+        std::cout << "name: " << name << ", zarplata: " << salary + bonus << std::endl;
+    }
+};
+
+int main() {
+    Employee* emp1 = new Employee("alexandr volodin", 50000.0);
+    Manager* mgr1 = new Manager("mihail timofeev", 60000.0, 15000.0);
+
+    Employee* employees[] = { emp1, mgr1 };
+
+    for (Employee* employee : employees) {
+        employee->printInfo();
+    }
+
+    delete emp1;
+    delete mgr1;
+
+    return 0;
+}
