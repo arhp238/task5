@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+
+class Engine {
+public:
+    void run() { cout << "engine start.\n"; }
+};
+
+class Car {
+    Engine engine;
+public:
+    void start() { engine.run(); }
+};
+
+int main() {
+    Car car;
+    car.start();
+    return 0;
+}
